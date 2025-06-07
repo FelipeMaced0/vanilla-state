@@ -1,7 +1,25 @@
 import { vs } from "./state";
 
+const registerPrintFunction = () => {
+    setInterval(() => {
+        const codeNode = document.createElement('code');
+        const preNode = document.createElement('pre');
+
+        codeNode.appendChild(preNode);
+
+        const container = document.getElementById(vs.config.print_state_element_id);
+        container.style = 'width: 800px; overflow: scroll;'
+        
+        container.innerHTML = '';
+        preNode.innerText = JSON.stringify(vs.public.state, null, "\t");
+
+        container.appendChild(codeNode);
+    }, 300);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const allInputs = document.querySelectorAll(vs.config.input_selector);
+    registerPrintFunction();
 
     allInputs?.forEach(element => {
         const path = element.getAttribute('name');
@@ -17,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         element.addEventListener('change', change);
+        
     });
 
     const sendButtons = document.querySelectorAll(vs.config.button_selector);

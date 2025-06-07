@@ -29,7 +29,8 @@ export const vs = {
         input_selector: 'input:not([type="button"])',
         button_selector: 'button[vs-on\\:click], input[type="button"][vs-on\\:click]',
         payload_path_prop_name: 'vs-payload-path',
-        on_click_prop_name: 'vs-on:click'
+        on_click_prop_name: 'vs-on:click',
+        print_state_element_id: 'vs-print-state'
     },
     public: {
         loadState: loadState,
