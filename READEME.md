@@ -87,3 +87,35 @@ function sendRequest(payload){
     console.log(JSON.stringfy(payload))
 }
 ```
+
+## Hoe to see what is the current state
+Create a node with de following id `vs-print-state`.
+
+```html
+<div id="vs-print-state">
+
+</div>
+```
+
+This will make `VS` print the current state inside the following nodes
+```html
+<div id="vs-print-state">
+    <code>
+        <pre>
+            {
+                "person": {
+                    "name":"asdasd asdasd asdasd",
+                    "birthday":"2000-09-10",
+                    "age":"10",
+                    "mother_name":"Cabrero da Silva Sauro",
+                    "eye_color":"#e66465"
+                },
+                "user": {
+                    "email": "email@test.com",
+                    "password": "123456"
+                }
+            }
+        </pre>
+    </code>
+</div>
+```
