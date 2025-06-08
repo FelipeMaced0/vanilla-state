@@ -1,16 +1,14 @@
 ## Usage
 
-In the head section of your html file add the fololwing line:
+In the <head> section of your HTML file, add the following line:
 `<script src='vanilla-state'/>`
 
 ## How Vanilla State Works?
-Vanilla state will atomatically track all input that are not of type button.
-The inputs should have names. The names will be used to set the appropriate property
-at the state object.
+Vanilla State automatically tracks all <input> elements that are not buttons. Each input must have a `name` attribute, which will be used to create corresponding properties in the state object.
 
 ## Example
 
-The following html code:
+Given this HTML:
 
 ```html
 <div>
@@ -30,7 +28,7 @@ The following html code:
 </div>
 ```
 
-would produce the following object state
+Vanilla State will generate this state object:
 
 ```json
 {
@@ -55,22 +53,32 @@ would produce the following object state
 
 ## How to make it useful
 
-Well, now that you now how to build a state from your html code using input names, it time to dive
-into how Vanilla State can give you control the that and receive the state or part of it when nedded.
+Now that you understand how to build a state from your HTML inputs, let's explore how to work with this state.
 
 ## Handlers
-Vanilla State has a spacial handlers called: `vs-on:click`. It is almost like onclick html handler. The diffenrence is that
-on VS, the function inside `vs-on:click` will receive an object with one or more properties present on the object state. To specify what propreties should be sent by `VS` to your handler, it is necessary to specify them at the `vs-payload-path` property on a button
-tag, like so `vs-payload-path="person,user"`, that would send an object like the one bellow to your function when the button is clicked:
+Vanilla State provides special handlers prefixed with vs-on:. These work similarly to standard HTML event handlers, but with enhanced functionality.
+### Click Handlers
+Use `vs-on:click` to specify a function that will receive selected portions of your state:
+
+```html
+<button 
+    vs-on:click="sendRequest" 
+    vs-payload-path="person,user">
+    Submit
+</button>
+
+
+```
+When clicked, your handler receives an object containing only the specified state portions:
 
 ```json
 {
     "person": {
-        "name":"asdasd asdasd asdasd",
-        "birthday":"2000-09-10",
-        "age":"10",
-        "mother_name":"Cabrero da Silva Sauro",
-        "eye_color":"#e66465"
+        "name": "Julian",
+        "birthday": "2025-05-12",
+        "age": "50",
+        "mother_name": "Cabrero da Silva Sauro",
+        "eye_color": "#e66465"
     },
     "user": {
         "email": "email@test.com",
@@ -79,17 +87,22 @@ tag, like so `vs-payload-path="person,user"`, that would send an object like the
 }
 ```
 
-Your handler should look like something this
-
+Handler Function Example
 ```javascript
-function sendRequest(payload){
-    /* Do something with payload*/
-    console.log(JSON.stringfy(payload))
+function sendRequest(payload) {
+    // Process the payload
+    console.log(JSON.stringify(payload, null, 2));
+    
+    // Example: Send data to an API
+    fetch('/api/submit', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    });
 }
 ```
 
-## Hoe to see what is the current state
-Create a node with de following id `vs-print-state`.
+## Viewing the Current State
+Add this element to your page to display the current state:
 
 ```html
 <div id="vs-print-state">
@@ -97,7 +110,7 @@ Create a node with de following id `vs-print-state`.
 </div>
 ```
 
-This will make `VS` print the current state inside the following nodes
+Vanilla State will automatically render the current state here:
 ```html
 <div id="vs-print-state">
     <code>
@@ -118,4 +131,19 @@ This will make `VS` print the current state inside the following nodes
         </pre>
     </code>
 </div>
+```
+
+## Modifying the State
+
+Access and modify the state through the global vs object:
+```javascript
+// View the entire state
+console.log(window.vs.state);
+
+// Update specific portions
+window.vs.loadState('user', {
+    email: 'new@email.com',
+    password: 'securepassword123'
+});
+
 ```
